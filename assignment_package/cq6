@@ -1,0 +1,12 @@
+Given a mesh with all of its half-edges created but none of its SYM pointers set, what is the minimum information needed to determine which half-edge should be the SYM of some other half-edge?
+
+-The 2 vertices it is connected to--if you know its prevVert and nextVert, you can match it with the other half edge with the same prev/nextVerts, because they will be unique to those 2 half edges.
+
+
+Which function in the Drawable class determines the primitives (i.e. triangles, lines, or points) with which a given mesh will be drawn? What does Drawable::getIndexBufferLength return, and where is this value used?
+
+-Drawable::drawMode() specifies the primitive type that the graphics pipeline will use to render the mesh
+
+-Drawable::getIndexBufferLength returns the number of elements in the index buffer, which represents the number of indices that define the primitives in the mesh. This is used when issuing a draw call, such as in glDrawElements, to specify how many indices OpenGL should read from the index buffer to render the geometry.
+
+

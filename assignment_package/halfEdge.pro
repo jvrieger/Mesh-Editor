@@ -49,3 +49,8 @@ address_sanitizer {
 HEADERS +=
 
 SOURCES +=
+
+DISTFILES += \
+    cq6 \
+    helpLog \
+    src/loadOBJDemo

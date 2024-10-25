@@ -8,6 +8,8 @@ QString getCurrentPath() {
     path = path.left(path.lastIndexOf("/"));
     path = path.left(path.lastIndexOf("/"));
     path = path.left(path.lastIndexOf("/"));
+    path = path.left(path.lastIndexOf("/"));
+    path = path.left(path.lastIndexOf("/"));
 #endif
     return path;
 }

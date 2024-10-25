@@ -1,0 +1,67 @@
+void Mesh::loadOBJ(string filename) {
+    //file loading code here
+    vector<uPtr<Vertex>> &verts = this->vertices;
+    vector<uPtr<Face>> &faces = this->faces;
+    vector<uPtr<HalfEdge>> &hes = this->halfEdge;
+
+    map<pair<Vertex*, Vertex*>, HalfEdge*> vertsToHEs;
+
+    for("v" line in OBJ file) {
+        float x, y, z = "v" line number data;
+        uPtr<Vertex> v = mkU<Vertex>(x,y,z);
+        verts.push_back(std::move(v));
+    }
+
+    for("f" in OBJ file) {
+        uPtr<Face> f = mkU<Face>(some color);
+        //push f into mesh Face vector here
+
+        HE *firstHE = nullptr;
+        HE *prevHE = nullptr;
+        Vertex *behindVert = "f" line.numberTriplets[numTriblets - 1]; //set this equal to the vert pos value of the last triplet in the f line
+        for(number triplet in "f" line) {
+            int vertIndex = triplet.firstNumber - 1; //-1 account for 0-first indexing
+            Vertex *v = verts[vertIndex].get();
+            uPtr<HE> edge = mkU<HE>(v, f.get());
+            //push edge into mesh HE vector here
+
+            pair<Vertex*, Vertex*> vertPair(minAddress(v, behindVert)
+                                            maxAddress(v, behindVert)); //todo: must come back and enforce an ordering
+            if(vertsToHEs.contains(vertPair)) {
+                edge->setSym(vertsToHes.at(vertPair)); //sets the sym ptrs of both edge and the KVP value
+            }
+            else {
+                vertsToHEs.insert(vertPair, edge.get());
+            }
+
+            if(firstHE == nullptr) {
+                firstHE = edge.get();
+            }
+            else {
+                prevHE = setNext(edge.get());
+            }
+            prevHE = edge.get();
+            behindVert = v;
+        }
+        prevHE->setNext(firstHE);
+    }
+    //we now have ALL pointers except HE.sym
+}
+
+
+HalfEdge::HalfEdge(Vetex *v, Face *f)
+    : vertex(v), face(f), next(nullptr), sym(nullptr)
+{
+    v->setHE(this);
+    f->setHE(this);
+}
+
+void Vertex::setHE(HalfEdge *e) {
+    this->edge = e;
+    e->vertex = this;
+}
+
+void HalfEdge::setVertex(...);
+void HalfEdge::setFace(...);
+void HalfEdge::setSym(...);
+void Face::setEdge(...);

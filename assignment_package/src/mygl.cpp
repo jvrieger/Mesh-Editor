@@ -13,7 +13,11 @@ MyGL::MyGL(QWidget *parent)
       m_progLambert(this), m_progFlat(this),
       vao(),
       m_camera(width(), height()),
-      m_mousePosPrev()
+      m_mousePosPrev(),
+      my_mesh(this),
+      m_vertDisplay(this),
+      m_faceDisplay(this),
+      m_HEDisplay(this)
 {
     setFocusPolicy(Qt::StrongFocus);
 
@@ -60,7 +64,6 @@ void MyGL::initializeGL()
     // Create and set up the flat lighting shader
     m_progFlat.createAndCompileShaderProgram("flat.vert.glsl", "flat.frag.glsl");
 
-
     // We have to have a VAO bound in OpenGL 3.2 Core. But if we're not
     // using multiple VAOs, we can just bind one once.
     glBindVertexArray(vao);
@@ -103,17 +106,94 @@ void MyGL::paintGL()
     m_progLambert.setUnifMat4("u_ModelInvTr", glm::inverse(glm::transpose(model)));
     //Draw the example sphere using our lambert shader
     m_progLambert.draw(m_geomSquare);
-
     //Now do the same to render the cylinder
     //We've rotated it -45 degrees on the Z axis, then translated it to the point <2,2,0>
     model = glm::translate(glm::mat4(1.0f), glm::vec3(2,2,0)) * glm::rotate(glm::mat4(1.0f), glm::radians(-45.0f), glm::vec3(0,0,1));
     m_progLambert.setUnifMat4("u_Model", model);
     m_progLambert.setUnifMat4("u_ModelInvTr", glm::inverse(glm::transpose(model)));
     m_progLambert.draw(m_geomSquare);
+
+    model = glm::mat4(1);
+    //Send the geometry's transformation matrix to the shader
+    m_progFlat.setUnifMat4("u_Model", model);
+    m_progLambert.setUnifMat4("u_ModelInvTr", glm::inverse(glm::transpose(model)));
+    //Draw the example sphere using our lambert shader
+    if (meshLoaded) {
+        // Clear the screen so that we only see newly drawn images
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        m_progFlat.draw(my_mesh);
+    }
+
+    // draw selected mesh components
+    if (m_vertDisplay.representedVertex) {
+        glDisable(GL_DEPTH_TEST); // so vertex is drawn on top of the mesh
+        m_progFlat.draw(m_vertDisplay);
+        glEnable(GL_DEPTH_TEST);
+    }
+
+    if (m_faceDisplay.representedFace) {
+        glDisable(GL_DEPTH_TEST); // so face edges are drawn on top of the mesh
+        m_progFlat.draw(m_faceDisplay);
+        glEnable(GL_DEPTH_TEST);
+    }
+
+    if (m_HEDisplay.representedHE) {
+        glDisable(GL_DEPTH_TEST); // so HE is drawn on top of the mesh
+        m_progFlat.draw(m_HEDisplay);
+        glEnable(GL_DEPTH_TEST);
+    }
+}
+
+OpenGLContext* MyGL::getOpenGLContext() {
+    return this; // return the current instance as OpenGLContext
 }
 
 void MyGL::keyPressEvent(QKeyEvent *e) {
-    ;
+    switch (e->key()) {
+        case Qt::Key_N: // NEXT he of the currently selected he
+            if (m_HEDisplay.representedHE != nullptr) {
+                    m_HEDisplay.updateHE(m_HEDisplay.representedHE->next);
+            }
+            break;
+
+        case Qt::Key_M: //  SYM he of the currently selected he *syms are not correct
+            if (m_HEDisplay.representedHE != nullptr) {
+                m_HEDisplay.updateHE(m_HEDisplay.representedHE->sym);
+            }
+            break;
+
+        case Qt::Key_F: //  FACE of the currently selected he
+            if (m_HEDisplay.representedHE != nullptr) {
+                m_faceDisplay.updateFace(m_HEDisplay.representedHE->face);
+            }
+            break;
+
+        case Qt::Key_V: // VERTEX of the currently selected he
+            if (m_HEDisplay.representedHE != nullptr) {
+                m_vertDisplay.updateVertex(m_HEDisplay.representedHE->vert);
+            }
+            break;
+
+        case Qt::Key_H:
+            if (e->modifiers() & Qt::ShiftModifier) {
+                // Select HE of the currently selected face
+                if (m_faceDisplay.representedFace != nullptr) {
+                    m_HEDisplay.updateHE(m_faceDisplay.representedFace->edge);
+                }
+                break;
+            }
+            // HE of the currently selected vertex
+            if (m_vertDisplay.representedVertex != nullptr) {
+                m_HEDisplay.updateHE(m_vertDisplay.representedVertex->edge);
+            }
+
+            break;
+
+        default:
+            break;
+    }
+
+    update(); // Redraw the OpenGL context to show changes
 }
 
 void MyGL::mousePressEvent(QMouseEvent *e) {

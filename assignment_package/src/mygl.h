@@ -6,6 +6,8 @@
 #include <shaderprogram.h>
 #include <scene/squareplane.h>
 #include "camera.h"
+#include "mesh.h"
+#include "meshcomponents.h"
 
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLShaderProgram>
@@ -33,7 +35,6 @@ private:
     // in the scene.
     glm::vec2 m_mousePosPrev;
 
-
 public:
     explicit MyGL(QWidget *parent = nullptr);
     ~MyGL();
@@ -41,6 +42,14 @@ public:
     void initializeGL();
     void resizeGL(int w, int h);
     void paintGL();
+
+    OpenGLContext* getOpenGLContext();
+    Mesh my_mesh; //my mesh!
+    bool meshLoaded = false; //so the program doesn't crash on opening
+
+    VertexDisplay m_vertDisplay;
+    FaceDisplay m_faceDisplay;
+    HalfEdgeDisplay m_HEDisplay;
 
 protected:
     void keyPressEvent(QKeyEvent *e);
@@ -50,6 +59,7 @@ protected:
 
 public slots:
     void tick();
+
 };
 
 
