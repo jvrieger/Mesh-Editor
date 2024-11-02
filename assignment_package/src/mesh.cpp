@@ -504,7 +504,6 @@ void Mesh::catmullClarkSubdivide(QListWidget* vertsWidget, QListWidget* facesWid
         //compute and store centroid in map for all faces
         faceToCentroid[face] = newCentVert;
 
-        std::cout << "CENTROID: " << newCentVert->position.x << ' ' << newCentVert->position.y << ' ' << newCentVert->position.z << std::endl;
         newCentVert->setText(QString("VertexCentroid %1").arg(newCentVert->getID()));
         vertsWidget->addItem(newCentVert);
     }
@@ -529,7 +528,6 @@ void Mesh::catmullClarkSubdivide(QListWidget* vertsWidget, QListWidget* facesWid
             newEdgeMidpoint->isOriginal = false; //this is not one of the mesh's original verts
             edgeMidpoints[edgePair] = newEdgeMidpoint;
 
-            std::cout << "MIDPOINT: " << newEdgeMidpoint->position.x  << ' ' << newEdgeMidpoint->position.y << ' ' << newEdgeMidpoint->position.z << std::endl;
         }
     }
     //UPDATE OG VERT POS to smoothed pos based on centroids and midpoints
@@ -559,7 +557,6 @@ void Mesh::catmullClarkSubdivide(QListWidget* vertsWidget, QListWidget* facesWid
         // compute the new position for the vertex
         glm::vec3 newPosition = ((n - 2.0f) * vPos / n) + (sumE / (n * n)) + (sumF / (n * n));
         v->position = newPosition;
-        std::cout << "NEWVERTPOS: " << v->position.x  << ' ' << v->position.y << ' ' << v->position.z << std::endl;
 
     }
 
@@ -580,8 +577,6 @@ void Mesh::catmullClarkSubdivide(QListWidget* vertsWidget, QListWidget* facesWid
         HalfEdge* nextHE1 = ogFace->edge;
 
         for (int i = 0; i < n-1; ++i) { //for every quadrangle to create except the last
-
-            std::cout << "CREATING QUAD: " << i  << ' ' << ogFace->id << ' ' << nextHE1->id << std::endl;
 
             // gather elements for the i-th quadrangle and create new half-edges for this quadrangle
             HalfEdge* he1 = nextHE1;  // Between vPrev and v
@@ -646,8 +641,6 @@ void Mesh::catmullClarkSubdivide(QListWidget* vertsWidget, QListWidget* facesWid
             quadFace->setText(QString("Face %1").arg(quadFace->getID()));
             facesWidget->addItem(quadFace);
         }
-        std::cout << "CREATING QUAD: 4"  << ' ' << ogFace->id << ' ' << nextHE1->id << std::endl;
-
         //Deal with the last quadrangle using the original face
         // gather elements for the i-th quadrangle and create new half-edges for this quadrangle
         HalfEdge* he1 = nextHE1;  // Between vPrev and v
