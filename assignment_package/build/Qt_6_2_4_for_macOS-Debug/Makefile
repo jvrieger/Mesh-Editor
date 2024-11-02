@@ -83,7 +83,9 @@ OBJECTS       = main.o \
 		moc_mainwindow.o \
 		moc_mygl.o \
 		moc_openglcontext.o
-DIST          = ../../cq6 \
+DIST          = ../../src/README \
+		../../cq6 \
+		../../cq7 \
 		../../helpLog \
 		../../src/loadOBJDemo \
 		/Users/thespicybeast/Qt/6.2.4/macos/mkspecs/features/spec_pre.prf \

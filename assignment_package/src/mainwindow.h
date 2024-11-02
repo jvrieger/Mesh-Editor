@@ -37,6 +37,16 @@ private slots:
 
     void on_facesListWidget_itemClicked(QListWidgetItem *item);
 
+    void on_splitEdge_clicked();
+
+    void on_subdivide_clicked();
+
+    void on_pushButton_clicked();
+
+    void onVertexPositionChanged();
+
+    void onFaceColorChanged();
+
 private:
     Ui::MainWindow *ui;
 };

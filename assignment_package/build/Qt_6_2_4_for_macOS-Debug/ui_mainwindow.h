@@ -52,6 +52,9 @@ public:
     QDoubleSpinBox *faceRedSpinBox;
     QLabel *label_11;
     QPushButton *openOBJ;
+    QPushButton *splitEdge;
+    QPushButton *subdivide;
+    QPushButton *pushButton;
     QMenuBar *menuBar;
     QMenu *menuFile;
 
@@ -71,24 +74,24 @@ public:
         mygl->setGeometry(QRect(11, 11, 618, 432));
         vertsListWidget = new QListWidget(centralWidget);
         vertsListWidget->setObjectName(QString::fromUtf8("vertsListWidget"));
-        vertsListWidget->setGeometry(QRect(640, 10, 111, 261));
+        vertsListWidget->setGeometry(QRect(650, 10, 111, 261));
         halfEdgesListWidget = new QListWidget(centralWidget);
         halfEdgesListWidget->setObjectName(QString::fromUtf8("halfEdgesListWidget"));
-        halfEdgesListWidget->setGeometry(QRect(770, 10, 111, 261));
+        halfEdgesListWidget->setGeometry(QRect(790, 10, 111, 261));
         facesListWidget = new QListWidget(centralWidget);
         facesListWidget->setObjectName(QString::fromUtf8("facesListWidget"));
-        facesListWidget->setGeometry(QRect(900, 10, 111, 261));
+        facesListWidget->setGeometry(QRect(930, 10, 111, 261));
         label = new QLabel(centralWidget);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(640, 280, 111, 16));
+        label->setGeometry(QRect(650, 280, 111, 16));
         label->setAlignment(Qt::AlignmentFlag::AlignCenter);
         label_2 = new QLabel(centralWidget);
         label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setGeometry(QRect(770, 280, 111, 16));
+        label_2->setGeometry(QRect(790, 280, 111, 16));
         label_2->setAlignment(Qt::AlignmentFlag::AlignCenter);
         label_3 = new QLabel(centralWidget);
         label_3->setObjectName(QString::fromUtf8("label_3"));
-        label_3->setGeometry(QRect(900, 280, 111, 16));
+        label_3->setGeometry(QRect(930, 280, 111, 16));
         label_3->setAlignment(Qt::AlignmentFlag::AlignCenter);
         vertPosXSpinBox = new QDoubleSpinBox(centralWidget);
         vertPosXSpinBox->setObjectName(QString::fromUtf8("vertPosXSpinBox"));
@@ -128,6 +131,9 @@ public:
         faceBlueSpinBox = new QDoubleSpinBox(centralWidget);
         faceBlueSpinBox->setObjectName(QString::fromUtf8("faceBlueSpinBox"));
         faceBlueSpinBox->setGeometry(QRect(880, 370, 62, 22));
+        QFont font;
+        font.setFamilies({QString::fromUtf8(".AppleSystemUIFont")});
+        faceBlueSpinBox->setFont(font);
         faceBlueSpinBox->setMaximum(1.000000000000000);
         faceBlueSpinBox->setSingleStep(0.050000000000000);
         label_10 = new QLabel(centralWidget);
@@ -149,7 +155,16 @@ public:
         label_11->setAlignment(Qt::AlignmentFlag::AlignCenter);
         openOBJ = new QPushButton(centralWidget);
         openOBJ->setObjectName(QString::fromUtf8("openOBJ"));
-        openOBJ->setGeometry(QRect(710, 410, 221, 32));
+        openOBJ->setGeometry(QRect(690, 410, 221, 31));
+        splitEdge = new QPushButton(centralWidget);
+        splitEdge->setObjectName(QString::fromUtf8("splitEdge"));
+        splitEdge->setGeometry(QRect(960, 310, 81, 31));
+        subdivide = new QPushButton(centralWidget);
+        subdivide->setObjectName(QString::fromUtf8("subdivide"));
+        subdivide->setGeometry(QRect(960, 410, 81, 31));
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        pushButton->setGeometry(QRect(959, 351, 81, 51));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -177,7 +192,7 @@ public:
         label->setText(QCoreApplication::translate("MainWindow", "Vertices", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Half-Edges", nullptr));
         label_3->setText(QCoreApplication::translate("MainWindow", "Faces", nullptr));
-        label_4->setText(QCoreApplication::translate("MainWindow", "Vertex Position", nullptr));
+        label_4->setText(QCoreApplication::translate("MainWindow", "Vertex Pos", nullptr));
         label_5->setText(QCoreApplication::translate("MainWindow", "X", nullptr));
         label_6->setText(QCoreApplication::translate("MainWindow", "Y", nullptr));
         label_7->setText(QCoreApplication::translate("MainWindow", "Z", nullptr));
@@ -186,6 +201,10 @@ public:
         label_10->setText(QCoreApplication::translate("MainWindow", "Face Color", nullptr));
         label_11->setText(QCoreApplication::translate("MainWindow", "Green", nullptr));
         openOBJ->setText(QCoreApplication::translate("MainWindow", "Import your own OBJ", nullptr));
+        splitEdge->setText(QCoreApplication::translate("MainWindow", "Split Edge", nullptr));
+        subdivide->setText(QCoreApplication::translate("MainWindow", "Subdivide", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "Triangulate\n"
+"Face", nullptr));
         menuFile->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
     } // retranslateUi
 

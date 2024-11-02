@@ -15,6 +15,7 @@ public:
     glm::vec3 position;
     HalfEdge* edge; //pointer to one of the HEs pointing to this Vert
     int id; //unique int id for this Vert
+    bool isOriginal; // true for original vertices, false for newly created ones
 
     Vertex(const glm::vec3& pos);
 
@@ -49,6 +50,7 @@ public:
     Face* face; //pointer to face this HE lies in
     Vertex* vert; //pointer to vert at end of this HE
     int id; //unique int id for this HE
+    bool isOriginal; // true for original HEs, false for newly created ones
 
     HalfEdge();
 

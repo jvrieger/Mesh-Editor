@@ -52,5 +52,6 @@ SOURCES +=
 
 DISTFILES += \
     cq6 \
+    cq7 \
     helpLog \
     src/loadOBJDemo

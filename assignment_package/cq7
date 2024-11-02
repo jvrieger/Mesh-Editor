@@ -1,0 +1,11 @@
+Temporary info for quadrangling a face:
+
+The newly created vertices that are created at the midpoints of each edge and at the center of the face
+The newly created half-edges that connect the original vertices, midpoint vertices, and the center vertex need to be tracked (allows you to properly assign the next and sym pointers between half-edges)
+The relationship/information between the original edges and the new half-edges to correctly assign next pointers in the quadrangulated faces.
+
+Face Extrusion
+
+After all edges have been turned into quadrangles via the extrusion algorithm we can use a weld operation to properly link the half-edges around the newly extruded geometry. That means merging the newly created side edges to correctly join adjacent faces and establish proper connectivity.
+
+During the first iteration of this weld operation we have to handle the connection of the base of the extruded region (properly connecting the HEs that belong to the original face and the newly created faces in the extruded region)

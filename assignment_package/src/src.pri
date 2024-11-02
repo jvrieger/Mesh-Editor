@@ -27,3 +27,6 @@ HEADERS += \
     $$PWD/camera.h \
     $$PWD/openglcontext.h \
     $$PWD/scene/squareplane.h
+
+DISTFILES += \
+    $$PWD/README

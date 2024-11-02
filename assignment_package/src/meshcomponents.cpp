@@ -6,7 +6,7 @@ int Face::nextID = 0;
 int HalfEdge::nextID = 0;
 
 Vertex::Vertex(const glm::vec3& pos)
-    : QListWidgetItem(), position(pos), edge(nullptr), id(nextID++) {}
+    : QListWidgetItem(), position(pos), edge(nullptr), id(nextID++), isOriginal(true) {}
 
 int Vertex::getID() const {
     return id;
@@ -30,7 +30,7 @@ void Face::setEdge(HalfEdge* edge) {
 }
 
 HalfEdge::HalfEdge()
-    : QListWidgetItem(), next(nullptr), sym(nullptr), face(nullptr), vert(nullptr), id(nextID++) {}
+    : QListWidgetItem(), next(nullptr), sym(nullptr), face(nullptr), vert(nullptr), id(nextID++), isOriginal(true) {}
 
 int HalfEdge::getID() const {
     return id;
@@ -160,8 +160,9 @@ void HalfEdgeDisplay::initializeAndBufferGeometryData() {
 
     std::vector<glm::vec3> pos(2); // two positions: start and end of the half-edge
 
-    pos[0] = representedHE->vert->position;      // Start vertex position
-    pos[1] = representedHE->next->vert->position; // End vertex position (vertex HE is pointing to)
+    pos[0] = representedHE->sym->vert->position;      // Start vertex position
+    pos[1] = representedHE->vert->position; // End vertex position (vertex HE is pointing to)
+    //change next to sym
 
     std::vector<unsigned int> indices = { 0, 1 };
 
